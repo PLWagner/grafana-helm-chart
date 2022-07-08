@@ -1,0 +1,116 @@
+grafana:
+  persistence:
+    enabled: false
+  admin:
+    existingSecret: grafana
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    path: /
+    hosts:
+      - grafana.local
+    tls:
+      - hosts:
+          - grafana.local
+        secretName: grafana-local-tls
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: docker-desktop
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: http://prometheus-server.monitoring
+          editable: false
+        - name: dev-be.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/dev-be
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: dev-fe.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/dev-fe
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: lpca-stg-fe.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/lpca-stg-fe
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: production-be.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/production-be
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: production-fe.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/production-fe
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: rb-prod-fe.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/rb-prod-fe
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: shared.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/shared
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: stg-be.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/stg-be
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+        - name: stg-fe.k8s.local
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: https://trickster.nuglif.net/stg-fe
+          jsonData:
+            httpMethod: 'GET'
+          editable: false
+  dashboards:
+    default:
+      argocd:
+        gnetId: 14584
+        revision: 1
+        datasource: shared.k8s.local
+    #   local-dashboard:
+    #     url: https://example.com/repository/test.json
+    #     token: ''
+    #   local-dashboard-base64:
+    #     url: https://example.com/repository/test-b64.json
+    #     token: ''
+    #     b64content: true
+  ldap:
+    enabled: true
+    existingSecret: grafana-ldap-config
+  grafana.ini:
+    auth.ldap:
+      enabled: true

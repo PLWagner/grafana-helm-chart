@@ -2,3 +2,14 @@ grafana:
   service:
     type: NodePort
     nodePort: 30445
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.monitoring
+        access: proxy
+        isDefault: true
+        httpMethod: GET
+        editable: false

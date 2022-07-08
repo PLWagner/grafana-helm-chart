@@ -1,4 +1,6 @@
 grafana:
+  admin:
+    existingSecret: grafana
   service:
     type: NodePort
     nodePort: 30445
